@@ -26,7 +26,7 @@ module Fluent::Plugin
     Fluent::Plugin.register_input('sql', self)
 
     desc 'RDBMS host'
-    config_param :host, :string
+    config_param :host, :string, default: nil
     desc 'RDBMS port'
     config_param :port, :integer, default: nil
     desc 'RDBMS driver name.'
@@ -39,7 +39,11 @@ module Fluent::Plugin
     config_param :password, :string, default: nil, secret: true
     desc 'RDBMS socket path'
     config_param :socket, :string, default: nil
-
+    desc 'RDBMS nls_timestamp_format'
+    config_param :nls_timestamp_format, :string, default: nil
+    desc 'RDBMS  nls_timestamp_tz_format'
+    config_param :nls_timestamp_tz_format, :string, default: nil
+    
     desc 'path to a file to store last rows'
     config_param :state_file, :string, default: nil
     desc 'prefix of tags of events. actual tag will be this_tag_prefix.tables_tag (optional)'
@@ -176,6 +180,8 @@ module Fluent::Plugin
         username: @username,
         password: @password,
         socket: @socket,
+        nls_timestamp_format: @nls_timestamp_format,
+        nls_timestamp_tz_format: @nls_timestamp_tz_format,
       }
 
       # creates subclass of ActiveRecord::Base so that it can have different
